@@ -155,7 +155,7 @@ const init = connection =>{
             req.session.user.id,
             req.params.id
         ])
-        if(!rows.length > 0){
+        if(rows.length > 0){
             res.redirect('/groups')
         } else {
             await connection.execute(`

@@ -35,7 +35,7 @@
         </div>
         <% if(groups.length > 0) { %>
         <div class="container">
-                <h2>Classificação Grupos</h2>
+                <h2>Listagem dos Grupos</h2>
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -52,7 +52,9 @@
                                 <%= group.id %>
                             </th>
                             <td>
+                                <% if(group.role && group.role !=='pending') { %>
                                 <a href="/groups/<%= group.id %>">
+                                <% } %>
                                     <%= group.name %>
                                 </a>
                             </td>
@@ -60,17 +62,22 @@
                                 <% if(group.role === 'owner'){ %>
                                     Fundador
                                 <% } else { %>
-                                    <%= group.role %>
+                                    <!-- <%= group.role %> -->
+                                    Usuário
                                 <% } %>
                             </td>
                             <td>
                                 <% if(group.role === 'owner') { %> 
-                                    <a href="/admin/groups/delete/<%= group.id %>">Excluir</a>
+                                    <a href="/admin/groups/delete/<%= group.id %>"><i class="fa fa-trash"></i> Excluir Grupo</a>
+                                <% } %>
+
+                                <% if(group.role === 'pending') { %> 
+                                    <i class="fa fa-hourglass"></i> Solicitação Pendente
                                 <% } %>
 
                                 <% if(!group.role) { %> 
                                     <a href="/groups/<%= group.id %>/join">Solicitar Entrada</a>
-                                <% } %>
+                                <% } %>                                
                             </td>
                         </tr>
                         <% }) %>

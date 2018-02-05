@@ -20,7 +20,7 @@
     <section class="content">
         <div class="container">
             <div class="row">
-                <h2>Grupo: <%= group.name %></h2>
+                <h2>Palpite: <%= group.name %></h2>
             </div>
         </div>
 
@@ -52,10 +52,10 @@
                                 </td>
                                 <td>
                                     <a href="/groups/<%= group.id %>/pending/<%= user.id %>/yes">
-                                        Aceitar
+                                        <i class="fa fa-check"></i> Aceitar
                                     </a> | 
                                     <a href="/groups/<%= group.id %>/pending/<%= user.id %>/no">
-                                        Negar
+                                        <i class="fa fa-trash"></i> Negar
                                     </a>                                
                                 </td>
                             </tr>
@@ -65,13 +65,18 @@
                 </div>        
             <% } else { %>
             <div class="container">
-                <p class="alert alert-info">Nenhum Usuário Pendente.</p>
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                Nenhum Usuário Pendente.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>                
             </div>
             <% } %>
         <% } %>
         <% if(group.role === 'pending'){ %>
         <div class="container">
-            <p class="alert alert-info">Você precisa ser aprovado pelo dono do Grupo.</p>
+            <p class="alert alert-info"> <i class="fa fa-clock"></i> Você precisa ser aprovado pelo dono do Grupo.</p>
         </div>
         <% } else { %>
         <div class="container">
@@ -86,22 +91,22 @@
                     <tbody>
                         <% games.forEach( game => { %>
                         <tr>
-                            <td>
+                            <td>                           
                                 <% if(game.guess_a){ %>
                                     <b><%= game.guess_a%></b>
                                 <% } else { %>
-                                    <input class="form-control" name="team_<%= game.id %>[a]">
+                                    <input name="team_<%= game.id %>[a]">
                                 <% } %>
 
-                                <%= game.team_a %> VS <%= game.team_b %>
+                                <%= game.team_a %> <strong>VS</strong> <%= game.team_b %>
 
                                 <% if(game.guess_b){ %>
                                     <b><%= game.guess_b%></b>
                                 <% } else { %>                                
-                                    <input class="form-control" name="team_<%= game.id %>[b]">
+                                    <input name="team_<%= game.id %>[b]">
                                 <% } %>
                             </td>
-                            <td>
+                            <td>                            
                                 <%= game.score %>
                             </td>
                         </tr>

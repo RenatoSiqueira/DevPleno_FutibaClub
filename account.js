@@ -3,7 +3,21 @@ const app = express.Router()
 
 const init = connection =>{
     app.get('/', async(req, res)=>{   
-        res.render('home')
+        const query = `
+        select
+            users.id, 
+            users.name,
+            sum(guessings.score) as score
+        from users
+        left join
+            guessings
+                on guessings.user_id = users.id
+        group by users.id
+        order by score DESC
+        LIMIT 3`
+        const [rows] = await connection.execute(query)
+        classification = rows
+        res.render('home', { ranking: rows})
     })
 
     app.get('/logout', (req, res)=>{

@@ -38,14 +38,15 @@
             </form>
         </div>
         <div class="container">
-                <h2>Classificação Grupos</h2>
+                <h2>Resultados Finais</h2>
                 <form method="POST" action="/admin/games/results">                
                 <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Grupo</th>
-                            <th>Ações</th>
+                            <th>Jogos</th>
+                            <th>Status</th>
+                            <th>Opções</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -55,11 +56,26 @@
                                 <%= game.id %>
                             </th>
                             <td>
-                                <input class="form-control" name="team_<%= game.id %>[a]"> 
-                                <%= game.team_a %> VS <%= game.team_b %> 
-                                <input class="form-control" name="team_<%= game.id %>[b]">
+                                <% if(game.result_a) { %>
+                                    <strong><%= game.result_a  %></strong>
+                                <% } else { %>
+                                <input name="team_<%= game.id %>[a]"> 
+                                <% } %>
+                                <%= game.team_a %> <strong>VS</strong> <%= game.team_b %> 
+                                <% if(game.result_b) { %>
+                                <strong><%= game.result_b  %></strong>
+                                <% } else { %>
+                                    <input name="team_<%= game.id %>[b]">
+                                <% } %>
                             </td>
-                            <td> <a href="/admin/games/delete/<%= game.id %>">Excluir</a></td>
+                            <td>
+                                <% if(!game.result_a || !game.result_b) { %>
+                                    <strong>Jogo Rolando...</strong>
+                                <% } else { %>
+                                    <strong>Jogo Encerrado</strong>
+                                <% } %>
+                            </td>
+                            <td> <a href="/admin/games/delete/<%= game.id %>"><i class="fa fa-trash"></i> Excluir Jogo</a></td>
                         </tr>
                         <% }) %>
                     </tbody>
